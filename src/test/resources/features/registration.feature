@@ -1,7 +1,6 @@
-@Login @Regression
+@Registration @Regression
 
-
-Feature: Login Functionality
+Feature: Registration Functionality
 
 
   Scenario Outline: as a user i want to login to ndosi website
