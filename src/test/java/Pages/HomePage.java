@@ -14,7 +14,6 @@ public class HomePage {
     WebDriver driver;
 
 
-
     @FindBy(xpath = "//span[text()='Login']")
     WebElement loginButton_xpath;
 
