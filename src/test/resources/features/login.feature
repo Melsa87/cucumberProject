@@ -10,6 +10,10 @@ Feature: Login Functionality
     And I enter password <password>
     When I click login button
     Then i should be logged in successfully
+    And i navigate to admin panel
+    Then i admin dashboard should be displayed
+
+
     Examples:
       | email           | password  |
       | melsa@gmail.com | @12345678 |
