@@ -24,4 +24,4 @@ Feature: Create Group
 
     Examples:
       | email             | password  | groupName | groupDescription | year | maxCapacity | startDate  | endDate    |
-      |melsa@gmail.com   | @12345678 | some name | some description | 2026 |  65456      |  05182026  |  05182027  |
+      |melsa@gmail.com   | @12345678  | Group 1   | Cucumber Test    | 2026 |  30         |  05192026  |  05192027  |

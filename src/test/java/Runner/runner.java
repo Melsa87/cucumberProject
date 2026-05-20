@@ -1,6 +1,7 @@
 package Runner;
 
 import io.cucumber.testng.CucumberOptions;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 @CucumberOptions(
         features = "src/test/resources/features",
@@ -9,6 +10,7 @@ import io.cucumber.testng.CucumberOptions;
         plugin = {"html:target/cucumber-report.html"},
         monochrome = true,
         publish = true
+)
 
 public class extends AbstractTestNGCucumberTests {
 
