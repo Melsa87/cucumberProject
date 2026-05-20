@@ -1,5 +1,6 @@
 package Steps;
 
+import Pages.AdminPanelPage;
 import Pages.DashboardPage;
 import Pages.HomePage;
 import Pages.LoginPage;
@@ -36,7 +37,7 @@ public class stepsDef {
     public void i_should_be_logged_in_successfully() {
         DashboardPage.verifyDashboardPageIsDisplayed();
         DashboardPage.clickUserMenuButton_xpath();
-        DashboardPage.clickAdminPanel_xpath();
+        AdminPanelPage.clickAdminPanel_xpath();
     }
 
     @Then("i navigate to admin panel")
