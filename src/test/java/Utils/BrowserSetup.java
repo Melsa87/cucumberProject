@@ -11,22 +11,33 @@ public class BrowserSetup {
     static WebDriver driver;
 
     public static WebDriver startBrowser(String browserchoice, String url) {
-        ChromeOptions chromeoptions = new ChromeOptions();
+
+        ChromeOptions chromeOptions = new ChromeOptions();
         EdgeOptions edgeOptions = new EdgeOptions();
 
-        if (browser.equalsIgnoreCase("chrome")) {
-            chromeoptions.addArguments("--headless");
-            driver = new ChromeDriver(chromeoptions);
-        } else if (browser.equalsIgnoreCase("edge")) {
-            edgeOptions.addArguments("--headless");
-            driver = new EdgeDriver();
-        }  else {
-            throw new IllegalArgumentException("Unsupported browser: " + browser);
+        if (browserchoice.equalsIgnoreCase("chrome")) {
 
+            chromeOptions.addArguments("--headless=new");
+            chromeOptions.addArguments("--window-size=1920,1080");
+
+            driver = new ChromeDriver(chromeOptions);
+
+        } else if (browserchoice.equalsIgnoreCase("edge")) {
+
+            edgeOptions.addArguments("--headless=new");
+            edgeOptions.addArguments("--window-size=1920,1080");
+
+            driver = new EdgeDriver(edgeOptions);
+
+        } else {
+
+            throw new IllegalArgumentException(
+                    "Unsupported browser: " + browserchoice
+            );
         }
-        driver.manage().window().maximize();
-        driver.get(url);
-        return driver;
 
+        driver.get(url);
+
+        return driver;
     }
 }

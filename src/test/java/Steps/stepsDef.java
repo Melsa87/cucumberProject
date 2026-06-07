@@ -1,16 +1,18 @@
 package Steps;
 
-import Pages.AdminPanelPage;
 import Pages.DashboardPage;
 import Pages.HomePage;
 import Pages.LoginPage;
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import TestData.Base;
+import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.en.*;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
-public class stepsDef {
+public class stepsDef extends Base {
+
 
     @Given("i am on the login page")
     public void i_am_on_the_login_page() {
@@ -18,12 +20,12 @@ public class stepsDef {
         LoginPage.verifyLoginPageIsDisplayed();
     }
 
-    @Given("I enter email {}")
+    @And("I enter email (.*)$")
     public void i_enter_email(String email) {
         LoginPage.enterEmail(email);
     }
 
-    @Given("I enter password {}")
+    @And("I enter password (.*)$")
     public void i_enter_password(String password) {
         LoginPage.enterPassword(password);
     }
@@ -36,74 +38,80 @@ public class stepsDef {
     @Then("i should be logged in successfully")
     public void i_should_be_logged_in_successfully() {
         DashboardPage.verifyDashboardPageIsDisplayed();
-        DashboardPage.clickUserMenuButton_xpath();
-        AdminPanelPage.clickAdminPanel_xpath();
     }
 
-    @Then("i navigate to admin panel")
-    public void i_navigate_to_admin_panel() {
-        // Implement logic here
-    }
 
-    @Then("i admin dashboard should be displayed")
-    public void i_admin_dashboard_should_be_displayed() {
-        // Implement logic here
+    @After
+    public void closeBrowser() {
     }
 
     @And("I click on the logged in user")
     public void iClickOnTheLoggedInUser() {
-        // Implement logic here
+        DashboardPage.clickUserMenuButton_xpath();
+
     }
 
     @And("I click on the admin panel")
     public void iClickOnTheAdminPanel() {
-        // Implement logic here
+        DashboardPage.clickAdminPanelButton_xpath();
+
     }
 
     @And("I click on the groups tab")
     public void iClickOnTheGroupsTab() {
-        throw new PendingException();
+
+        DashboardPage.clickGroupsButton();
     }
 
     @And("I click on the create group button")
     public void iClickOnTheCreateGroupButton() {
-        throw new PendingException();
+        DashboardPage.clickCreateNewGroup();
     }
 
-    @And("I enter max capacity {}")
+    @And("I enter group name (.*)$")
+    public void iEnterGroupNameGroupName(String groupName) throws InterruptedException {
+        DashboardPage.groupNameInput(groupName);
+    }
+
+    @And("I enter group description (.*)$")
+    public void iEnterGroupDescriptionGroupDescription(String groupDescription) throws InterruptedException {
+        DashboardPage.groupDescriptionArea(groupDescription);
+    }
+
+    @And("I enter year (.*)$")
+    public void iEnterYear(String year) throws InterruptedException {
+        DashboardPage.enterGroupYear(year);
+    }
+
+    @And("I enter max capacity (.*)$")
     public void iEnterMaxCapacityMaxCapacity(String maxCapacity) {
-        // Implement logic here
+        DashboardPage.enterMaxCapacity(maxCapacity);
     }
 
-    @And("I enter group description {}")
-    public void iEnterGroupDescriptionGroupDescription(String groupDescription) {
-        // Implement logic here
-    }
-
-    @And("I enter year {}")
-    public void iEnterYearYear(String year) {
-        // Implement logic here
-    }
-
-    @And("I enter start date {}")
+    @And("I enter start date (.*)$")
     public void iEnterStartDateStartDate(String startDate) {
-        // Implement logic here
+        DashboardPage.enterStartDate(startDate);
     }
 
-    @And("I enter end date {}")
+    @And("I enter end date (.*)$")
     public void iEnterEndDateEndDate(String endDate) {
-        // Implement logic here
+        DashboardPage.enterEndDate(endDate);
     }
 
-    @When("I submit the group creation form")
-    public void iSubmitTheGroupCreationForm() {
-        // Renamed from duplicate method
-    }
-
-    @Then("I should see the group created successfully")
+    @Then("i should see the group created successfully")
     public void iShouldSeeTheGroupCreatedSuccessfully() {
-        // Implement logic here
+        // Write code here that turns the phrase above into concrete actions
     }
+
+    @AfterStep
+    public void addScreenshots(Scenario scenario) {
+        if (scenario.isFailed()) {
+            byte[] screenshots = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshots, "image/png", "image");
+        }
+    }
+
+
 }
 
 

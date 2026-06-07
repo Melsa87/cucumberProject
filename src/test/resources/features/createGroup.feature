@@ -1,14 +1,12 @@
-@CreateGroup @Regression
-
-
+@createGroup @Regression
 Feature: Create Group
 
-  Scenario Outline: As admin user I want to create a group on NDOSI website
-    Given I am on the login page
+  Scenario Outline: as admin user i want to login to ndosi website
+    Given i am on the login page
     And I enter email <email>
     And I enter password <password>
     When I click login button
-    Then I should be logged in successfully
+    Then i should be logged in successfully
     And I click on the logged in user
     And I click on the admin panel
     And I click on the groups tab
@@ -20,8 +18,8 @@ Feature: Create Group
     And I enter start date <startDate>
     And I enter end date <endDate>
     When I click on the create group button
-    Then I should see the group created successfully
+    Then i should see the group created successfully
 
     Examples:
       | email             | password  | groupName | groupDescription | year | maxCapacity | startDate  | endDate    |
-      |melsa@gmail.com   | @12345678  | Group 1   | Cucumber Test    | 2026 |  30         |  05192026  |  05192027  |
+      |melsa@gmail.com   | @12345678  | Group 1   | Cucumber Test    | 2026 |  30         |  2026-06-02  |  2027-07-02   |
