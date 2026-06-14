@@ -13,7 +13,8 @@ import org.openqa.selenium.TakesScreenshot;
 
 public class stepsDef extends Base {
 
-
+    private String currentGroupName;
+    
     @Given("i am on the login page")
     public void i_am_on_the_login_page() {
         HomePage.clickLoginButton();
@@ -63,13 +64,14 @@ public class stepsDef extends Base {
         DashboardPage.clickGroupsButton();
     }
 
-    @And("I click on the create group button")
+    @And("I click on the create new group button")
     public void iClickOnTheCreateGroupButton() {
         DashboardPage.clickCreateNewGroup();
     }
 
     @And("I enter group name (.*)$")
     public void iEnterGroupNameGroupName(String groupName) throws InterruptedException {
+        this.currentGroupName = groupName;
         DashboardPage.groupNameInput(groupName);
     }
 
@@ -98,9 +100,15 @@ public class stepsDef extends Base {
         DashboardPage.enterEndDate(endDate);
     }
 
+    @When("I click on the create group button")
+    public void IClickOnTheCreateGroupButton() {
+        DashboardPage.clickCreateGroup();
+        // Write code here that turns the phrase above into concrete actions
+    }
+
     @Then("i should see the group created successfully")
     public void iShouldSeeTheGroupCreatedSuccessfully() {
-        // Write code here that turns the phrase above into concrete actions
+        DashboardPage.verifyGroupCreatedSuccessfully(currentGroupName);
     }
 
     @AfterStep
@@ -109,11 +117,6 @@ public class stepsDef extends Base {
             byte[] screenshots = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshots, "image/png", "image");
         }
+
     }
-
-
 }
-
-
-
-

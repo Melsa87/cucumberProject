@@ -10,7 +10,7 @@ Feature: Create Group
     And I click on the logged in user
     And I click on the admin panel
     And I click on the groups tab
-    And I click on the create group button
+    And I click on the create new group button
     And I enter group name <groupName>
     And I enter group description <groupDescription>
     And I enter year <year>
@@ -20,6 +20,6 @@ Feature: Create Group
     When I click on the create group button
     Then i should see the group created successfully
 
-    Examples:
-      | email             | password  | groupName | groupDescription | year | maxCapacity | startDate  | endDate    |
-      |melsa@gmail.com   | @12345678  | Group 1   | Cucumber Test    | 2026 |  30         |  2026-06-02  |  2027-07-02   |
+     Examples:
+       | email             | password  | groupName | groupDescription | year | maxCapacity | startDate  | endDate    |
+       |melsa@gmail.com   | @12345678 | GroupZero  | Cucumber Test    | 2026 |  30     |  12-06-26  |  02-07-27  |

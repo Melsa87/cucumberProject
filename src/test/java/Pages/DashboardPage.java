@@ -15,6 +15,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
 
 public class DashboardPage {
 
+    private static final String groupName = ("GroupName") ;
     static WebDriver driver;
 
     @FindBy(xpath = "//*[@id=\"app-main-content\"]/section/div[1]/h2")
@@ -50,6 +51,9 @@ public class DashboardPage {
     @FindBy(xpath = "//*[@id=\"app-root\"]/div/div[3]/div/div[4]/div/form/div[3]/div[2]/input")
     static WebElement maxCapacity_xpath;
 
+    @FindBy(xpath= "//button[contains(., 'Create Group')]")
+    static WebElement createGroup_xpath;
+
 
     public DashboardPage(WebDriver driver) {
         this.driver = driver;
@@ -66,7 +70,6 @@ public class DashboardPage {
     }
 
     public static void clickAdminPanelButton_xpath() {
-        //ADDED WAITS
         new WebDriverWait(driver, Duration.ofSeconds(15))
                 .until(ExpectedConditions.elementToBeClickable(adminPanel_xpath));
         adminPanel_xpath.click();
@@ -78,19 +81,14 @@ public class DashboardPage {
 
     public static void clickCreateNewGroup() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[contains(text(), " +
-                "'Create New Group')]")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[contains(text(), 'Create New Group')]")));
 
-        // JavaScript click bypasses the overlay
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", createNewGroup_xpath);
     }
 
     public static void groupNameInput(String groupName) throws InterruptedException {
         groupNameInput.sendKeys(groupName);
-
-//        Assert.assertEquals(groupNameInput.getAttribute("value"), "some name",
-//                "Group Name entered is correct");
     }
 
     public static void groupDescriptionArea(String groupDescription) {
@@ -103,20 +101,64 @@ public class DashboardPage {
         groupYear.sendKeys(year);
     }
 
-    public static void enterStartDate(String startDate) {
-        startDate_xpath.click();
-        startDate_xpath.clear();
-        startDate_xpath.sendKeys(startDate);
-    }
+     public static void enterStartDate(String startDate) {
+         startDate_xpath.click();
+         startDate_xpath.clear();
+         String formattedDate = formatDate(startDate);
+         startDate_xpath.sendKeys(formattedDate);
+     }
 
-    public static void enterEndDate(String date) {
-//        endDate_xpath.clear();
-        endDate_xpath.sendKeys(date);
+     public static void enterEndDate(String date) {
+         endDate_xpath.click();
+         endDate_xpath.clear();
+         String formattedDate = formatDate(date);
+         endDate_xpath.sendKeys(formattedDate);
+     }
+
+    private static String formatDate(String dateStr) {
+        String[] p = dateStr.split("-");
+        int year = Integer.parseInt(p[2]);
+        year += (year < 100) ? 2000 : 0;
+
+        return p[1] + "/" + p[0] + "/" + year;
     }
 
     public static void enterMaxCapacity(String capacity) {
         maxCapacity_xpath.sendKeys(capacity);
     }
 
+    public static void clickCreateGroup() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[contains(., 'Create Group')]")
+        )).click();
+    }
 
+     public static void verifyGroupCreatedSuccessfully(String groupName) {
+         // Wait for the page to settle after group creation
+         try {
+             Thread.sleep(3000);
+         } catch (InterruptedException e) {
+             Thread.currentThread().interrupt();
+         }
+         
+         // Wait for the modal/dialog to close and page to reload
+         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+         
+         // Try to find the group name in the table or list
+         try {
+             // First, try to find it in a table cell
+             WebElement group = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                     By.xpath("//td[contains(text(), '" + groupName + "')] | //div[contains(@class, 'group') and contains(text(), '" + groupName + "')] | //*[contains(text(), '" + groupName + "')]")
+             ));
+             Assert.assertTrue(group.isDisplayed(), "Group '" + groupName + "' was not created successfully");
+         } catch (org.openqa.selenium.TimeoutException e) {
+             // If not found, take a screenshot and fail with helpful message
+             throw new AssertionError("Group '" + groupName + "' was not found on the page after creation. The group may not have been created successfully.", e);
+         }
+     }
+    
+    public static void verifyGroupCreatedSuccessfully() {
+        verifyGroupCreatedSuccessfully(groupName);
+    }
 }

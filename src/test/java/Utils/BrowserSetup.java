@@ -17,14 +17,14 @@ public class BrowserSetup {
 
         if (browserchoice.equalsIgnoreCase("chrome")) {
 
-            chromeOptions.addArguments("--headless=new");
+            //chromeOptions.addArguments("--headless=new");
             chromeOptions.addArguments("--window-size=1920,1080");
 
             driver = new ChromeDriver(chromeOptions);
 
         } else if (browserchoice.equalsIgnoreCase("edge")) {
 
-            edgeOptions.addArguments("--headless=new");
+            //edgeOptions.addArguments("--headless=new");
             edgeOptions.addArguments("--window-size=1920,1080");
 
             driver = new EdgeDriver(edgeOptions);
