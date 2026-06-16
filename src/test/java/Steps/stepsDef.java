@@ -14,7 +14,7 @@ import org.openqa.selenium.TakesScreenshot;
 public class stepsDef extends Base {
 
     private String currentGroupName;
-    
+
     @Given("i am on the login page")
     public void i_am_on_the_login_page() {
         HomePage.clickLoginButton();
